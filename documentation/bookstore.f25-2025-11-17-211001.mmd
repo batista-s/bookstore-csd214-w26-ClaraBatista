@@ -17,8 +17,8 @@ classDiagram
         <<interface>>
     }
     class Ticket{
-        +description
-        +price
+        -String description
+        -double price
         +sellItem()
     }
     class Editable{
@@ -96,6 +96,40 @@ classDiagram
 
     }
 
+    %% Directed Task
+
     class Stationary {
         <Abstract>>
+        -String brand
+        -double price
+        -int quantity
+
+        +toString()
+        +equals()
+        +hashCode()
     }
+
+    class Pen {
+        -String color
+
+        +Pen()
+        +Pen(String color)
+        +edit()
+        +initialize()
+        +sellItem()
+    }
+
+    class Notebook {
+        -int pageCount
+
+        +Pen()
+        +edit()
+        +initialize()
+        +sellItem()
+    }
+
+    %% Initiative Task
+    %% My idea: sell digital music
+
+
+

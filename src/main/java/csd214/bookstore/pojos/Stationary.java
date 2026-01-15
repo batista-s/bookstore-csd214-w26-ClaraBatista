@@ -21,9 +21,9 @@ public abstract class Stationary extends Product {
     @Override
     public void edit() {
         // 2. Edit Self fields
-        System.out.println("Edit Stationary [" + this.brand + "]:");
+        System.out.println("Edit brand [" + this.brand + "]:");
 
-        // These two line do the same thing
+        // These two lines (27 & 28) do the same thing
         // this.brand = getInput(this.brand);
         setBrand(getInput("Generic"));
     }

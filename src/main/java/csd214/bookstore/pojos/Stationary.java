@@ -4,6 +4,16 @@ import java.util.Objects;
 
 public abstract class Stationary extends Product {
     private String brand;
+    private double price;
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getBrand() {
         return brand;
@@ -13,9 +23,20 @@ public abstract class Stationary extends Product {
     }
 
     @Override
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
     public void initialize(){
         System.out.println("Enter Brand:");
-        this.brand = getInput("Generic");
+        setBrand(getInput("Generic"));
+        System.out.println("Enter Quantity:");
+        setQuantity(getInput(0));
     }
 
     @Override

@@ -9,6 +9,8 @@ public class Pen extends Stationary {
     public void initialize(){
         super.initialize();
 
+        System.out.println("Enter Color:");
+        this.color = getInput("Undefined");
     }
 
     public String getColor() {
@@ -28,12 +30,8 @@ public class Pen extends Stationary {
 
     @Override
     public void sellItem(){
-
-    }
-
-    @Override
-    public double getPrice(){
-        return getPrice
+        System.out.println("Selling Pen (color: " + color);
+        setQuantity(getQuantity() - 1);
     }
 
 }

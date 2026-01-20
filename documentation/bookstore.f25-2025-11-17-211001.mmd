@@ -8,6 +8,15 @@ classDiagram
     SaleableItem <|.. Product
     Serializable <|.. Product
     Product <-- CashTill
+    Product <|-- Stationary
+    Stationary <|-- Pen
+    Stationary <|-- Notebook
+    Product <|-- MusicCollection
+    MusicCollection <|-- Album
+    MusicCollection <|-- Single
+    Album "1" *-- "1..*" Music
+    Single "1" *-- "1" Music
+
 
     class Product{
         -String productId
@@ -93,17 +102,17 @@ classDiagram
         <<interface>>
         +sellItem()
         +getPrice()
-
     }
 
     %% Directed Task
 
     class Stationary {
-        <Abstract>>
+        <<Abstract>>
         -String brand
         -double price
         -int quantity
 
+        +getPrice()
         +toString()
         +equals()
         +hashCode()
@@ -122,14 +131,44 @@ classDiagram
     class Notebook {
         -int pageCount
 
-        +Pen()
+        +Notebook()
+        +Notebook(int pageCount)
         +edit()
         +initialize()
         +sellItem()
     }
 
     %% Initiative Task
-    %% My idea: sell digital music
+    %% My idea: sell music in digital format
+
+    %% I decided to set cover as a string so it can store an image link
+    class MusicCollection{
+        <<Abstract>>>
+        -String title
+        -String artist
+        -String genre
+        -double price
+
+        +getPrice()
+        +toString()
+        +equals()
+        +hashCode()
+    }
+
+    class Album {
+        +initialize()
+        +sellItem()
+    }
+
+    class Single {
+        +initialize()
+        +sellItem()
+    }
+
+    class Music {
+        -String title
+        -Time duration
+    }
 
 
 

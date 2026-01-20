@@ -7,6 +7,14 @@ public abstract class Stationary extends Product {
     private double price;
     private int quantity;
 
+    public Stationary() {    }
+
+    public Stationary(String brand, double price, int quantity) {
+        this.brand = brand;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -18,6 +26,7 @@ public abstract class Stationary extends Product {
     public String getBrand() {
         return brand;
     }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
@@ -37,6 +46,8 @@ public abstract class Stationary extends Product {
         setBrand(getInput("Generic"));
         System.out.println("Enter Quantity:");
         setQuantity(getInput(0));
+        System.out.println("Enter Price:");
+        setPrice(getInput(0.0));
     }
 
     @Override
@@ -47,12 +58,18 @@ public abstract class Stationary extends Product {
         // These two lines (27 & 28) do the same thing
         // this.brand = getInput(this.brand);
         setBrand(getInput("Generic"));
+
+        System.out.println("Edit brand [" + this.brand + "]:");
+
+        System.out.println("Edit brand [" + this.brand + "]:");
     }
 
     @Override
     public String toString() {
         return "Stationary{" +
                 "brand='" + brand + '\'' +
+                "price='" + price + '\'' +
+                "quantity='" + quantity + '\'' +
                 '}';
     }
 

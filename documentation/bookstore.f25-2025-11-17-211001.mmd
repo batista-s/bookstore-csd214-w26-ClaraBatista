@@ -76,7 +76,7 @@ classDiagram
         -java.util.Date currentIssue
 
         +Magazine()
-        +Magazine(int orderQty, Date currentIssue, String title, double price, int copies)
+        +Magazine(int orderQty, Date currentIssue, \n String title, double price, int copies)
 
         +edit()
         +initialize()
@@ -89,7 +89,7 @@ classDiagram
         +sellItem()
 
         +DiscMag()
-        +DiscMag(boolean, hasDisc, int orderQty, Date currentIssue, String title, double price, int copies)
+        +DiscMag(boolean, hasDisc, int orderQty, Date currentIssue, \n String title, double price, int copies)
 
     }
     class CashTill{
@@ -125,6 +125,7 @@ classDiagram
         +Pen(String color)
         +edit()
         +initialize()
+        +toString()
         +sellItem()
     }
 
@@ -135,6 +136,7 @@ classDiagram
         +Notebook(int pageCount)
         +edit()
         +initialize()
+        +toString()
         +sellItem()
     }
 
@@ -156,12 +158,22 @@ classDiagram
     }
 
     class Album {
+        -int musicQuantity
+
+        +Album()
+        +Album(String title, String artist, String genre, double price, \n int musicQuantity, Array<Music> musics)
+        +edit()
         +initialize()
+        +toString()
         +sellItem()
     }
 
     class Single {
+        +Single()
+        +Single(String title, String artist, String genre, double price, \n int musicQuantity, Music music)
+        +edit()
         +initialize()
+        +toString()
         +sellItem()
     }
 

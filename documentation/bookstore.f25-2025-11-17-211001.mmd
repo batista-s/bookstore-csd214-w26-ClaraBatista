@@ -12,10 +12,8 @@ classDiagram
     Stationary <|-- Pen
     Stationary <|-- Notebook
     Product <|-- MusicCollection
-    MusicCollection <|-- Album
-    MusicCollection <|-- Single
-    Album "1" *-- "1..*" Music
-    Single "1" *-- "1" Music
+    MusicCollection <|-- Vinyl
+    MusicCollection <|-- Digital
 
 
     class Product{
@@ -149,6 +147,7 @@ classDiagram
         -String title
         -String artist
         -String genre
+        -int year
         -double price
 
         +getPrice()
@@ -157,29 +156,27 @@ classDiagram
         +hashCode()
     }
 
-    class Album {
-        -int musicQuantity
+    class Vinyl {
+        -String discColor
+        -int copies
 
-        +Album()
-        +Album(String title, String artist, String genre, double price, \n int musicQuantity, Array<Music> musics)
+        +Vinyl()
+        +Vinyl(String title, String artist, String genre, double price, \n String discColor, int copies)
         +edit()
         +initialize()
         +toString()
         +sellItem()
     }
 
-    class Single {
-        +Single()
-        +Single(String title, String artist, String genre, double price, \n int musicQuantity, Music music)
+    class Digital {
+        -String link
+
+        +Digital()
+        +Digital(String title, String artist, String genre, double price, \n String link)
         +edit()
         +initialize()
         +toString()
         +sellItem()
-    }
-
-    class Music {
-        -String title
-        -Time duration
     }
 
 

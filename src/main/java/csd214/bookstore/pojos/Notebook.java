@@ -44,7 +44,7 @@ public class Notebook extends Stationary{
 
     @Override
     public void sellItem(){
-        System.out.println("Selling Notebook (pages: " + pageCount);
+        System.out.println("Selling Notebook {pages: " + pageCount + super.toString() + "}");
         setQuantity(getQuantity() - 1);
     }
 }

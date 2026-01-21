@@ -46,7 +46,7 @@ public class Pen extends Stationary {
 
     @Override
     public void sellItem(){
-        System.out.println("Selling Pen (color: " + color);
+        System.out.println("Selling Pen {color: " + color + super.toString() + "}");
         setQuantity(getQuantity() - 1);
     }
 

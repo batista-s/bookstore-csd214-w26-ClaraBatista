@@ -90,8 +90,10 @@ public class App {
             }
 
             if(item instanceof Editable) {
-                ((Editable)item).initialize();
+                // PASS THE SHARED SCANNER
+                ((Editable)item).initialize(this.input);
             }
+
             addItem(item);
         }
     }
@@ -178,7 +180,8 @@ public class App {
     }
 
     public void editItem(Editable item) {
-        item.edit();
+        // PASS THE SHARED SCANNER
+        item.edit(this.input);
     }
 
     public void deleteItem() {

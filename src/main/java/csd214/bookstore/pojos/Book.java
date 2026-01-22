@@ -1,6 +1,7 @@
 package csd214.bookstore.pojos;
 
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Book extends Publication {
     private String author = "";
@@ -17,29 +18,25 @@ public class Book extends Publication {
         super(title, price, copies);
         this.author = author;
     }
-
     @Override
-    public void initialize() {
-        // 1. Initialize Parent (Title)
-        super.initialize();
+    public void initialize(Scanner input) {
+        // Pass scanner up to parent
+        super.initialize(input);
 
-        // 2. Initialize Self (Author)
         System.out.println("Enter Author:");
-        this.author = getInput("Unknown Author");
+        this.author = getInput(input, "Unknown Author");
 
-        // 3. Initialize Parent (Copies/Price)
-        super.initPriceCopies();
+        // Pass scanner to helper
+        super.initPriceCopies(input);
     }
 
     @Override
-    public void edit() {
-        // 1. Edit Parent fields (Title, Price, Copies)
-        super.edit();
-
-        // 2. Edit Self fields
+    public void edit(Scanner input) {
+        super.edit(input);
         System.out.println("Edit Author [" + this.author + "]:");
-        this.author = getInput(this.author);
+        this.author = getInput(input, this.author);
     }
+
 
     @Override
     public void sellItem() {

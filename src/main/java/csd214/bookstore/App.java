@@ -68,6 +68,10 @@ public class App {
             System.out.println("2. Add Magazine");
             System.out.println("3. Add DiscMag");
             System.out.println("4. Add Ticket");
+            System.out.println("5. Add Notebook");
+            System.out.println("6. Add Pen");
+            System.out.println("7. Add Vinyl");
+            System.out.println("8. Add Digital Music");
             System.out.println("99. Exit");
 
             try {
@@ -86,6 +90,10 @@ public class App {
                 case 2: item = new Magazine(); break;
                 case 3: item = new DiscMag(); break;
                 case 4: item = new Ticket(); break;
+                case 5: item = new Notebook(); break;
+                case 6: item = new Pen(); break;
+                case 7: item = new Vinyl(); break;
+                case 8: item = new DigitalMusic(); break;
                 default: System.out.println("Invalid selection."); continue;
             }
 
@@ -113,6 +121,10 @@ public class App {
             System.out.println("3. Magazines");
             System.out.println("4. DiscMags");
             System.out.println("5. Tickets");
+            System.out.println("6. Notebooks");
+            System.out.println("7. Pens");
+            System.out.println("8. Vinyls");
+            System.out.println("9. Digital Musics");
             System.out.println("99. Exit");
 
             try {
@@ -132,6 +144,10 @@ public class App {
                 case 3: filter = Magazine.class; break;
                 case 4: filter = DiscMag.class; break;
                 case 5: filter = Ticket.class; break;
+                case 6: filter = Notebook.class; break;
+                case 7: filter = Pen.class; break;
+                case 8: filter = Vinyl.class; break;
+                case 9: filter = DigitalMusic.class; break;
                 default: System.out.println("Invalid selection."); continue;
             }
 
@@ -270,6 +286,47 @@ public class App {
             t.description = "Concert: " + faker.rockBand().name();
             t.price = faker.number().randomDouble(2, 50, 150);
             addItem(t);
+
+            // Notebook
+            Notebook n = new Notebook(
+                    faker.app().name(),
+                    faker.number().randomDouble(2, 10, 25),
+                    faker.number().numberBetween(5, 30),
+                    faker.number().numberBetween(80, 200)
+            );
+            addItem(n);
+
+            // Pen
+            Pen p = new Pen(
+                    faker.app().name(),
+                    faker.number().randomDouble(2, 10, 25),
+                    faker.number().numberBetween(5, 30),
+                    faker.color().name()
+            );
+            addItem(p);
+
+            // Vinyl
+            Vinyl v = new Vinyl(
+                    faker.funnyName().name(),
+                    faker.rockBand().name(),
+                    faker.music().genre(),
+                    faker.number().numberBetween(1990,2026),
+                    faker.number().randomDouble(2,10,999),
+                    faker.color().name(),
+                    faker.number().numberBetween(5,30)
+            );
+            addItem(v);
+
+            // Digital Music
+            DigitalMusic d = new DigitalMusic(
+                    faker.funnyName().name(),
+                    faker.rockBand().name(),
+                    faker.music().genre(),
+                    faker.number().numberBetween(1990,2026),
+                    faker.number().randomDouble(2,10,999),
+                    "www." + faker.internet().domainName()
+            );
+            addItem(d);
         }
     }
 }

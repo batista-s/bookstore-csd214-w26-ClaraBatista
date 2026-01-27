@@ -1,9 +1,6 @@
 package csd214.bookstore;
 
-import csd214.bookstore.pojos.Book;
-import csd214.bookstore.pojos.Pen;
-import csd214.bookstore.pojos.SaleableItem;
-import csd214.bookstore.pojos.Vinyl;
+import csd214.bookstore.pojos.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -95,6 +92,39 @@ class AppTest {
     }
 
     @Test
+    void testAppFlow_AddNotebook() {
+        // 1. Build the Clean Script
+        StringBuilder script = new StringBuilder();
+
+        // --- ADD PEN ---
+        script.append("1\n");             // Main Menu: Add Items
+        script.append("5\n");             // Add Menu: Add Notebook
+        script.append("Paperage\n");         // Brand
+        script.append("5.49\n");          // Price
+        script.append("10\n");            // Quantity
+        script.append("40\n");         // Color
+        script.append("99\n");            // Exit Add Menu
+        script.append("99\n");            // Quit
+
+        // 2. Inject
+        System.setIn(new ByteArrayInputStream(script.toString().getBytes()));
+
+        // 3. Run
+        App app = new App() {
+            @Override
+            public void populate() { /* clean start */ }
+        };
+        app.run();
+
+        // 4. Verify
+        Notebook expected = new Notebook("Paperage", 5.49, 10, 40);
+        SaleableItem result = app.findItem(expected);
+
+        assertNotNull(result,"Couldn't find expected notebook");
+        assertEquals("Paperage", ((Notebook)result).getBrand());
+    }
+
+    @Test
     void testAppFlow_AddVinyl() {
         // 1. Build the Clean Script
         StringBuilder script = new StringBuilder();
@@ -132,4 +162,6 @@ class AppTest {
         assertNotNull(result,"Couldn't find expected vinyl");
         assertEquals("Healing", ((Vinyl)result).getTitle());
     }
+
+
 }

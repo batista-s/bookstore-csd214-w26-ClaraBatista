@@ -1,6 +1,7 @@
 package csd214.bookstore;
 
 import csd214.bookstore.pojos.Book;
+import csd214.bookstore.pojos.Pen;
 import csd214.bookstore.pojos.SaleableItem;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,41 @@ class AppTest {
 
         assertNotNull(result);
         assertEquals("Dune Messiah", ((Book)result).getTitle());
+    }
+
+    @Test
+    void testAppFlow_AddPen() {
+        // 1. Build the Clean Script
+        StringBuilder script = new StringBuilder();
+
+        // --- ADD PEN ---
+        script.append("1\n");             // Main Menu: Add Items
+        script.append("6\n");             // Add Menu: Add Pen
+        script.append("Copic\n");         // Brand
+        script.append("2.99\n");          // Price
+        script.append("30\n");            // Quantity
+        script.append("Yellow\n");         // Color
+        script.append("99\n");            // Exit Add Menu
+        script.append("5\n");            // List Menu
+        script.append("7\n");            // List Pens
+        script.append("99\n");            // Exit List Menu
+        script.append("99\n");            // Quit
+
+        // 2. Inject
+        System.setIn(new ByteArrayInputStream(script.toString().getBytes()));
+
+        // 3. Run
+        App app = new App() {
+            @Override
+            public void populate() { /* clean start */ }
+        };
+        app.run();
+
+        // 4. Verify
+        Pen expected = new Pen("Copic", 5.99, 30, "Yellow");
+        SaleableItem result = app.findItem(expected);
+
+        assertNotNull(result,"Couldn't find expected pen");
+        assertEquals("Copic", ((Pen)result).getBrand());
     }
 }

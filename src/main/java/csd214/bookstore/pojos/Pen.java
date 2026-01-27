@@ -12,6 +12,7 @@ public class Pen extends Stationary {
     public Pen(String brand, double price, int quantity, String color) {
         super(brand, price, quantity);
         this.color = color;
+        System.out.println("You added a pen to your inventory");
     }
 
     public String getColor() {
@@ -51,6 +52,15 @@ public class Pen extends Stationary {
         setQuantity(getQuantity() - 1);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Pen pen)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(color, pen.color);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), color);
+    }
 }

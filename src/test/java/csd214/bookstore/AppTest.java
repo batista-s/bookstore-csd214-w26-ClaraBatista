@@ -106,7 +106,7 @@ class AppTest {
         script.append("In Love With a Ghost\n");    // Artist
         script.append("Chiptune\n");                // Genre
         script.append("2016\n");                    // Year
-        script.append("109.00\n");                  // Price
+        script.append("109.50\n");                  // Price
         script.append("Light Yellow\n");            // DiscColor
         script.append("23\n");                      // Copies
         script.append("99\n");                      // Exit Add Menu
@@ -126,10 +126,10 @@ class AppTest {
         app.run();
 
         // 4. Verify
-        Vinyl expected = new Vinyl("Healing", "In Love With a Ghost", "Chiptune", 2016, 109.00, "Light Yellow", 23);
+        Vinyl expected = new Vinyl("Healing", "In Love With a Ghost", "Chiptune", 2016, 109.50, "Light Yellow", 23);
         SaleableItem result = app.findItem(expected);
 
         assertNotNull(result,"Couldn't find expected vinyl");
-        assertEquals("Copic", ((Pen)result).getBrand());
+        assertEquals("Healing", ((Vinyl)result).getTitle());
     }
 }

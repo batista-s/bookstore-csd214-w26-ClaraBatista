@@ -1,5 +1,6 @@
 package csd214.bookstore.pojos;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Vinyl extends MusicCollection{
@@ -61,5 +62,17 @@ public class Vinyl extends MusicCollection{
                 "discColor='" + discColor + '\'' +
                 ", copies=" + copies +
                 '}' + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Vinyl vinyl)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(discColor, vinyl.discColor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), discColor);
     }
 }

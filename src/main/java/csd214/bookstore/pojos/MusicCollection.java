@@ -87,7 +87,7 @@ public abstract class MusicCollection extends Product {
         System.out.println("Enter Year:");
         setYear(getInput(input, 0));
         System.out.println( "Enter Price:");
-        setPrice(getInput(input,0));
+        setPrice(getInput(input,0.0));
     }
 
     @Override

@@ -3,6 +3,7 @@ package csd214.bookstore;
 import csd214.bookstore.pojos.Book;
 import csd214.bookstore.pojos.Pen;
 import csd214.bookstore.pojos.SaleableItem;
+import csd214.bookstore.pojos.Vinyl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -90,6 +91,45 @@ class AppTest {
         SaleableItem result = app.findItem(expected);
 
         assertNotNull(result,"Couldn't find expected pen");
+        assertEquals("Copic", ((Pen)result).getBrand());
+    }
+
+    @Test
+    void testAppFlow_AddVinyl() {
+        // 1. Build the Clean Script
+        StringBuilder script = new StringBuilder();
+
+        // --- ADD PEN ---
+        script.append("1\n");                       // Main Menu: Add Items
+        script.append("7\n");                       // Add Menu: Add Vinyl
+        script.append("Healing\n");                 // Title
+        script.append("In Love With a Ghost\n");    // Artist
+        script.append("Chiptune\n");                // Genre
+        script.append("2016\n");                    // Year
+        script.append("109.00\n");                  // Price
+        script.append("Light Yellow\n");            // DiscColor
+        script.append("23\n");                      // Copies
+        script.append("99\n");                      // Exit Add Menu
+        script.append("5\n");                      // List Menu
+        script.append("8\n");                      // List Vinyl
+        script.append("99\n");                      // Exit List Menu
+        script.append("99\n");                      // Quit
+
+        // 2. Inject
+        System.setIn(new ByteArrayInputStream(script.toString().getBytes()));
+
+        // 3. Run
+        App app = new App() {
+            @Override
+            public void populate() { /* clean start */ }
+        };
+        app.run();
+
+        // 4. Verify
+        Vinyl expected = new Vinyl("Healing", "In Love With a Ghost", "Chiptune", 2016, 109.00, "Light Yellow", 23);
+        SaleableItem result = app.findItem(expected);
+
+        assertNotNull(result,"Couldn't find expected vinyl");
         assertEquals("Copic", ((Pen)result).getBrand());
     }
 }

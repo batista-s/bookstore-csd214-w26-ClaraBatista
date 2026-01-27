@@ -54,4 +54,12 @@ public class Vinyl extends MusicCollection{
         System.out.println("Selling Digital Music {color: " + discColor + super.toString() + "}");
         setCopies(getCopies()-1);
     }
+
+    @Override
+    public String toString() {
+        return "Vinyl{" +
+                "discColor='" + discColor + '\'' +
+                ", copies=" + copies +
+                '}' + super.toString();
+    }
 }

@@ -140,8 +140,8 @@ class AppTest {
         script.append("Light Yellow\n");            // DiscColor
         script.append("23\n");                      // Copies
         script.append("99\n");                      // Exit Add Menu
-        script.append("5\n");                      // List Menu
-        script.append("8\n");                      // List Vinyl
+        script.append("5\n");                       // List Menu
+        script.append("8\n");                       // List Vinyl
         script.append("99\n");                      // Exit List Menu
         script.append("99\n");                      // Quit
 
@@ -161,6 +161,44 @@ class AppTest {
 
         assertNotNull(result,"Couldn't find expected vinyl");
         assertEquals("Healing", ((Vinyl)result).getTitle());
+    }
+
+    @Test
+    void testAppFlow_AddDigitalMusic() {
+        // 1. Build the Clean Script
+        StringBuilder script = new StringBuilder();
+
+        // --- ADD PEN ---
+        script.append("1\n");                                                   // Main Menu: Add Items
+        script.append("8\n");                                                   // Add Menu: Add Vinyl
+        script.append("Yanni Live At The Acropolis\n");                         // Title
+        script.append("Yanni\n");                                               // Artist
+        script.append("Contemporary Instrumental\n");                           // Genre
+        script.append("1994\n");                                                // Year
+        script.append("160.89\n");                                              // Price
+        script.append("local-library.xwz/files/yanni/sbDFc2PpIbRH2u3E\n");      // Link
+        script.append("99\n");                                                  // Exit Add Menu
+        script.append("5\n");                                                   // List Menu
+        script.append("9\n");                                                   // List Digital Music
+        script.append("99\n");                                                  // Exit List Menu
+        script.append("99\n");                                                  // Quit
+
+        // 2. Inject
+        System.setIn(new ByteArrayInputStream(script.toString().getBytes()));
+
+        // 3. Run
+        App app = new App() {
+            @Override
+            public void populate() { /* clean start */ }
+        };
+        app.run();
+
+        // 4. Verify
+        DigitalMusic expected = new DigitalMusic("Yanni Live At The Acropolis", "Yanni", "Contemporary Instrumental", 1994, 160.89, "sbDFc2PpIbRH2u3E");
+        SaleableItem result = app.findItem(expected);
+
+        assertNotNull(result,"Couldn't find expected vinyl");
+        assertEquals("Yanni Live At The Acropolis", ((DigitalMusic)result).getTitle());
     }
 
 

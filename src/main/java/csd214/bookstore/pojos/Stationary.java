@@ -45,10 +45,10 @@ public abstract class Stationary extends Product {
     public void initialize(Scanner input){
         System.out.println("Enter Brand:");
         setBrand(getInput(input, "Generic"));
-        System.out.println("Enter Quantity:");
-        setQuantity(getInput(input, 0));
         System.out.println("Enter Price:");
         setPrice(getInput(input, 0.0));
+        System.out.println("Enter Quantity:");
+        setQuantity(getInput(input, 0));
     }
 
     @Override

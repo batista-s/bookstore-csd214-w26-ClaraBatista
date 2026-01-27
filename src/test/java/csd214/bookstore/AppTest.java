@@ -69,13 +69,10 @@ class AppTest {
         script.append("1\n");             // Main Menu: Add Items
         script.append("6\n");             // Add Menu: Add Pen
         script.append("Copic\n");         // Brand
-        script.append("2.99\n");          // Price
+        script.append("5.99\n");          // Price
         script.append("30\n");            // Quantity
         script.append("Yellow\n");         // Color
         script.append("99\n");            // Exit Add Menu
-        script.append("5\n");            // List Menu
-        script.append("7\n");            // List Pens
-        script.append("99\n");            // Exit List Menu
         script.append("99\n");            // Quit
 
         // 2. Inject

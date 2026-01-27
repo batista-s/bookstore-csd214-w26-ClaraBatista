@@ -51,4 +51,6 @@ public class Pen extends Stationary {
         setQuantity(getQuantity() - 1);
     }
 
+
+
 }

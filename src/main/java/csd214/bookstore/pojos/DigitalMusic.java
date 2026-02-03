@@ -1,5 +1,6 @@
 package csd214.bookstore.pojos;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class DigitalMusic extends MusicCollection{
@@ -46,4 +47,17 @@ public class DigitalMusic extends MusicCollection{
     public void sellItem(){
         System.out.println("Selling Digital Music (link: " + link + super.toString());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof DigitalMusic that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(link, that.link);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), link);
+    }
+
 }

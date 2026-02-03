@@ -194,7 +194,7 @@ class AppTest {
         app.run();
 
         // 4. Verify
-        DigitalMusic expected = new DigitalMusic("Yanni Live At The Acropolis", "Yanni", "Contemporary Instrumental", 1994, 160.89, "sbDFc2PpIbRH2u3E");
+        DigitalMusic expected = new DigitalMusic("Yanni Live At The Acropolis", "Yanni", "Contemporary Instrumental", 1994, 160.89, "local-library.xwz/files/yanni/sbDFc2PpIbRH2u3E");
         SaleableItem result = app.findItem(expected);
 
         assertNotNull(result,"Couldn't find expected vinyl");

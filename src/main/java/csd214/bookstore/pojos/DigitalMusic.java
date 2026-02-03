@@ -1,6 +1,8 @@
 package csd214.bookstore.pojos;
 
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class DigitalMusic extends MusicCollection{
     private String link;
@@ -10,6 +12,7 @@ public class DigitalMusic extends MusicCollection{
 
     public DigitalMusic(String title, String artist, String genre, int year, double price, String link) {
         super(title, artist, genre, year, price);
+        setProductId(UUID.randomUUID().toString());
         this.link = link;
     }
 
@@ -45,5 +48,17 @@ public class DigitalMusic extends MusicCollection{
     @Override
     public void sellItem(){
         System.out.println("Selling Digital Music (link: " + link + super.toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof DigitalMusic that)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(link, that.link);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), link);
     }
 }

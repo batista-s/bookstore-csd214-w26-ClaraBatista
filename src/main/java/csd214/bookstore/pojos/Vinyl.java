@@ -2,6 +2,7 @@ package csd214.bookstore.pojos;
 
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Vinyl extends MusicCollection{
     private String discColor;
@@ -11,6 +12,7 @@ public class Vinyl extends MusicCollection{
 
     public Vinyl(String title, String artist, String genre, int year, double price, String discColor, int copies) {
         super(title, artist, genre, year, price);
+        setProductId(UUID.randomUUID().toString());
         this.discColor = discColor;
         this.copies = copies;
     }

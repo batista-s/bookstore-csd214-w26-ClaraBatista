@@ -8,7 +8,7 @@ import java.util.List;
 
 public class JdbcBookApp {
     // Note: Port 3333 as defined in your docker-compose.yml
-    private static final String URL = "jdbc:mysql://localhost:3333/bookstore";
+    private static final String URL = "jdbc:mysql://localhost:3307/bookstore";
     private static final String USER = "csd214";
     private static final String PASSWORD = "itstudies12345";
 
@@ -33,7 +33,7 @@ public class JdbcBookApp {
 
             // 4. Delete a Book
             System.out.println("\n--- DELETING BOOK ---");
-            deleteBookByTitle("The Hobbit");
+            //deleteBookByTitle("The Hobbit");
             listBooks();
 
         } catch (SQLException e) {

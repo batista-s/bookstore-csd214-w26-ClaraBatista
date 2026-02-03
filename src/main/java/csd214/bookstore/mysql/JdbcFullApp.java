@@ -4,7 +4,7 @@ import csd214.bookstore.pojos.*;
 import java.sql.*;
 
 public class JdbcFullApp {
-    private static final String URL = "jdbc:mysql://localhost:3333/bookstore";
+    private static final String URL = "jdbc:mysql://localhost:3307/bookstore";
     private static final String USER = "csd214";
     private static final String PASSWORD = "itstudies12345";
 

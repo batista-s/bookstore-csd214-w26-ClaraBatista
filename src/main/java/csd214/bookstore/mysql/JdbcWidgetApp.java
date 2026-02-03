@@ -3,7 +3,7 @@ import csd214.bookstore.pojos.Widget;
 import java.sql.*;
 import java.util.UUID;
 public class JdbcWidgetApp {
-    private static final String URL = "jdbc:mysql://localhost:3333/bookstore";
+    private static final String URL = "jdbc:mysql://localhost:3307/bookstore";
     private static final String USER = "csd214";
     private static final String PASS = "itstudies12345";
     public static void main(String[] args) {

@@ -2,6 +2,7 @@ package csd214.bookstore.pojos;
 
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Notebook extends Stationary{
     private int pageCount;
@@ -12,6 +13,7 @@ public class Notebook extends Stationary{
     public Notebook(String brand, double price, int quantity, int pageCount) {
         super(brand, price, quantity);
         this.pageCount = pageCount;
+        setProductId(UUID.randomUUID().toString());
     }
 
     public int getPageCount() {

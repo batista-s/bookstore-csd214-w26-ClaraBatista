@@ -2,6 +2,7 @@ package csd214.bookstore.pojos;
 
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Pen extends Stationary {
     private String color;
@@ -12,7 +13,7 @@ public class Pen extends Stationary {
     public Pen(String brand, double price, int quantity, String color) {
         super(brand, price, quantity);
         this.color = color;
-        System.out.println("You added a pen to your inventory");
+        setProductId(UUID.randomUUID().toString());
     }
 
     public String getColor() {

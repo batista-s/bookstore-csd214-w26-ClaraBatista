@@ -1,3 +1,5 @@
+> branch:
+> - lecture4-jdbc-complete-based-lab1-complete
 # Bookstore CLI Application
 A console-based Java application for managing a bookstore inventory, performing sales, and tracking cash flow. This project demonstrates object-oriented programming concepts including inheritance, polymorphism, and interface implementation in Java 24.
 > this app consists of [6 branches...](https://github.com/fcarella/bookstore-2025-12-04/branches)
@@ -44,7 +46,7 @@ The hierarchy implements the following structure:
 
 2.  **Run the application:**
     ```bash
-    mvn exec:java -Dexec.mainClass="csd214.bookstore.Main"
+    mvn exec:java -Dexec.mainClass="csd214.old_.Main"
     ```
 
 ## Usage

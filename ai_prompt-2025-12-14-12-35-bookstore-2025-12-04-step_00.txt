@@ -1,6 +1,94 @@
-Context generated from: /home/fcarella/IdeaProjects/bookstore/2025-12-04/bookstore-2025-12-04
-Timestamp: 2025-12-04-18-16
+Context generated from: C:\Users\fcarella\IdeaProjects\csd214\f25\bookstore-2025-12-04
+Timestamp: 2025-12-14-12-35
 --------------------------------------------------
+
+--- FILE: .files2ignore ---
+```
+# .files2ignore GenericPromptGeneratorV3
+.git
+volumes/
+
+# Generator Output & Custom Data
+ai_prompt*
+Timeline*.json
+assets/
+
+### Node / NPM / Express / React ###
+node_modules/
+package-lock.json
+dist/
+build/
+out/
+coverage/
+.nyc_output/
+
+# Environment Variables (Security: Never upload secrets)
+.env
+.env.local
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Framework specific
+.next/
+.nuxt/
+dist-ssr
+*.local
+
+### Spring Boot / Java ###
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IDEs / Editors ###
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# STS / Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+```
+
 
 --- FILE: .gitignore ---
 ```
@@ -45,6 +133,108 @@ build/
 ```
 
 
+--- FILE: documentation/bookstore.f25-2025-11-17-211001.mmd ---
+```
+classDiagram
+    Editable <|--Product
+    Product <|--Ticket
+    Product <|--Publication
+    Publication <|-- Book
+    Publication <|-- Magazine
+    Magazine <|-- DiscMag
+    SaleableItem <|.. Product
+    Serializable <|.. Product
+    Product <-- CashTill
+
+    class Product{
+        -String productId
+    }
+
+    class Serializable{
+        <<interface>>
+    }
+    class Ticket{
+        +description
+        +price
+        +sellItem()
+    }
+    class Editable{
+        <<abstract>>
+        -Scanner input
+        +String getInput(String)
+        +int getInput(int)
+        +double getInput(double)
+        +boolean getInput(boolean)
+        +Date getInput(Date)
+        +Enum getInput(Enum)
+        +edit()*
+        +initialize()*
+
+    }
+    class Publication{
+        <<Abstract>>
+        -String title
+        -double price
+        -int copies
+        +getPrice()
+
+        +Publication()
+        +Publication(String title, double price, int copies)
+        +toString()
+        +equals()
+        +hashCode()
+
+    }
+    class Book{
+        -String author
+        +edit()
+        +initialize()
+        +sellItem()
+
+        +Book()
+        +Book(String author)
+        +Book(String author, String title, double price, int copies)
+        +toString()
+        +equals()
+        +hashCode()
+
+    }
+    class Magazine{
+        -int orderQty
+        -java.util.Date currentIssue
+
+        +Magazine()
+        +Magazine(int orderQty, Date currentIssue, String title, double price, int copies)
+
+        +edit()
+        +initialize()
+        +sellItem()
+    }
+    class DiscMag{
+        -boolean hasDisc
+        +edit()
+        +initialize()
+        +sellItem()
+
+        +DiscMag()
+        +DiscMag(boolean, hasDisc, int orderQty, Date currentIssue, String title, double price, int copies)
+
+    }
+    class CashTill{
+        -double runningTotal
+        +CashTill()
+        +showTotal()
+        +sellItem(SaleableItem item)
+    }
+    class SaleableItem {
+        <<interface>>
+        +sellItem()
+        +getPrice()
+
+    }
+```
+
+
 --- FILE: pom.xml ---
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,17 +272,226 @@ build/
 ```
 
 
---- FILE: src/main/java/csd214/bookstore/Main.java ---
+--- FILE: README.md ---
 ```
-package csd214.bookstore;
+# Bookstore CLI Application
+>branch step_00
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Bookstore Application Started");
-        new App().run();
-    }
-}
+A console-based Java application for managing a bookstore inventory, performing sales, and tracking cash flow. This project demonstrates object-oriented programming concepts including inheritance, polymorphism, and interface implementation in Java 24.
 
+## Features
+
+*   **Inventory Management:**
+    *   **Books:** Manage items with Title, Author, Price, and Copies.
+    *   **Magazines:** Manage periodicals with Order Quantity and Issue Date.
+    *   **Disc Magazines:** Specialized magazines that include a disc.
+    *   **Tickets:** Simple saleable items with a description and price.
+*   **CRUD Operations:** Add, Edit, and Delete items from the inventory.
+*   **Sales System:** Sell items to decrement inventory count and increase the Cash Till total.
+*   **Data Generation:** Uses `JavaFaker` to populate the inventory with realistic dummy data.
+*   **Menu System:** Interactive console menu for navigation.
+
+## Class Hierarchy
+
+![Class Diagram](documentation/bookstore-2025-12-04-213439.png)
+
+The hierarchy implements the following structure:
+*   **SaleableItem (Interface):** Defines `sellItem()` and `getPrice()`.
+*   **Editable (Abstract):** Handles console input/output and parsing.
+*   **Publication:** Base class for Books and Magazines (Title, Price, Copies).
+
+## Prerequisites
+
+*   **Java JDK:** Version 24
+*   **Maven:** 3.6+
+
+## Dependencies
+
+*   [JavaFaker](https://github.com/DiUS/java-faker) (1.0.2): For generating random test data.
+*   [JUnit 5](https://junit.org/junit5/) (5.10.0): For unit testing.
+
+## How to Run
+
+1.  **Compile the project:**
+    ```bash
+    mvn clean compile
+    ```
+
+2.  **Run the application:**
+    ```bash
+    mvn exec:java -Dexec.mainClass="csd214.old_.Main"
+    ```
+
+## Usage
+
+Upon starting, the application will populate the list with random data. You will see the following menu:
+
+```text
+***********************
+ 1. Add Items
+ 2. Edit Items
+ 3. Delete Items
+ 4. Sell item(s)
+ 5. List items
+99. Quit
+***********************
+```
+
+*   **Add Items:** Choose a specific type (Book, Magazine, etc.) and follow the prompts.
+*   **Edit Items:** Select an index from the list to modify fields.
+*   **Sell Items:** Select an index to sell. This decreases the 'Copies' count (for Publications) and adds the price to the internal Cash Till.
+
+## Running Tests
+
+Unit tests are implemented using JUnit 5 to verify the logic of POJOs and input mocking.
+
+Run the tests using Maven:
+
+```bash
+mvn test
+```
+
+## Project Structure
+
+```
+src/
+├── main/
+│   └── java/
+│       └── csd214/
+│           └── bookstore/
+│               ├── Main.java           # Entry point
+│               ├── App.java            # Controller / Menu Logic
+│               └── pojos/              # Data Models
+│                   ├── Editable.java
+│                   ├── SaleableItem.java
+│                   ├── Product.java
+│                   ├── Publication.java
+│                   ├── Book.java
+│                   ├── Magazine.java
+│                   ├── DiscMag.java
+│                   ├── Ticket.java
+│                   └── CashTill.java
+└── test/
+    └── java/
+        └── csd214/
+            └── bookstore/
+                └── pojos/              # Unit Tests
+```
+
+```
+
+
+--- FILE: script.sh ---
+```
+#!/bin/bash
+
+# Update README.md to include the documentation image
+cat <<EOF > README.md
+# Bookstore CLI Application
+
+A console-based Java application for managing a bookstore inventory, performing sales, and tracking cash flow. This project demonstrates object-oriented programming concepts including inheritance, polymorphism, and interface implementation in Java 24.
+
+## Features
+
+*   **Inventory Management:**
+    *   **Books:** Manage items with Title, Author, Price, and Copies.
+    *   **Magazines:** Manage periodicals with Order Quantity and Issue Date.
+    *   **Disc Magazines:** Specialized magazines that include a disc.
+    *   **Tickets:** Simple saleable items with a description and price.
+*   **CRUD Operations:** Add, Edit, and Delete items from the inventory.
+*   **Sales System:** Sell items to decrement inventory count and increase the Cash Till total.
+*   **Data Generation:** Uses \`JavaFaker\` to populate the inventory with realistic dummy data.
+*   **Menu System:** Interactive console menu for navigation.
+
+## Class Hierarchy
+
+![Class Diagram](documentation/bookstore-2025-12-04-213439.png)
+
+The hierarchy implements the following structure:
+*   **SaleableItem (Interface):** Defines \`sellItem()\` and \`getPrice()\`.
+*   **Editable (Abstract):** Handles console input/output and parsing.
+*   **Publication:** Base class for Books and Magazines (Title, Price, Copies).
+
+## Prerequisites
+
+*   **Java JDK:** Version 24
+*   **Maven:** 3.6+
+
+## Dependencies
+
+*   [JavaFaker](https://github.com/DiUS/java-faker) (1.0.2): For generating random test data.
+*   [JUnit 5](https://junit.org/junit5/) (5.10.0): For unit testing.
+
+## How to Run
+
+1.  **Compile the project:**
+    \`\`\`bash
+    mvn clean compile
+    \`\`\`
+
+2.  **Run the application:**
+    \`\`\`bash
+    mvn exec:java -Dexec.mainClass="csd214.old_.Main"
+    \`\`\`
+
+## Usage
+
+Upon starting, the application will populate the list with random data. You will see the following menu:
+
+\`\`\`text
+***********************
+ 1. Add Items
+ 2. Edit Items
+ 3. Delete Items
+ 4. Sell item(s)
+ 5. List items
+99. Quit
+***********************
+\`\`\`
+
+*   **Add Items:** Choose a specific type (Book, Magazine, etc.) and follow the prompts.
+*   **Edit Items:** Select an index from the list to modify fields.
+*   **Sell Items:** Select an index to sell. This decreases the 'Copies' count (for Publications) and adds the price to the internal Cash Till.
+
+## Running Tests
+
+Unit tests are implemented using JUnit 5 to verify the logic of POJOs and input mocking.
+
+Run the tests using Maven:
+
+\`\`\`bash
+mvn test
+\`\`\`
+
+## Project Structure
+
+\`\`\`
+src/
+├── main/
+│   └── java/
+│       └── csd214/
+│           └── bookstore/
+│               ├── Main.java           # Entry point
+│               ├── App.java            # Controller / Menu Logic
+│               └── pojos/              # Data Models
+│                   ├── Editable.java
+│                   ├── SaleableItem.java
+│                   ├── Product.java
+│                   ├── Publication.java
+│                   ├── Book.java
+│                   ├── Magazine.java
+│                   ├── DiscMag.java
+│                   ├── Ticket.java
+│                   └── CashTill.java
+└── test/
+    └── java/
+        └── csd214/
+            └── bookstore/
+                └── pojos/              # Unit Tests
+\`\`\`
+EOF
+
+echo "README.md updated with image link."
 ```
 
 
@@ -373,13 +772,177 @@ public class App {
 ```
 
 
---- FILE: src/main/java/csd214/bookstore/pojos/SaleableItem.java ---
+--- FILE: src/main/java/csd214/bookstore/Main.java ---
+```
+package csd214.bookstore;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Bookstore Application Started");
+        new App().run();
+    }
+}
+
+```
+
+
+--- FILE: src/main/java/csd214/bookstore/pojos/Book.java ---
 ```
 package csd214.old_.pojos;
 
-public interface SaleableItem {
-    void sellItem();
-    double getPrice();
+import java.util.Objects;
+
+public class Book extends Publication {
+    private String author = "";
+
+    public Book() {
+        super();
+    }
+
+    public Book(String author) {
+        this.author = author;
+    }
+
+    public Book(String author, String title, double price, int copies) {
+        super(title, price, copies);
+        this.author = author;
+    }
+
+    @Override
+    public void initialize() {
+        // 1. Initialize Parent (Title)
+        super.initialize();
+
+        // 2. Initialize Self (Author)
+        System.out.println("Enter Author:");
+        this.author = getInput("Unknown Author");
+
+        // 3. Initialize Parent (Copies/Price)
+        super.initPriceCopies();
+    }
+
+    @Override
+    public void edit() {
+        // 1. Edit Parent fields (Title, Price, Copies)
+        super.edit();
+
+        // 2. Edit Self fields
+        System.out.println("Edit Author [" + this.author + "]:");
+        this.author = getInput(this.author);
+    }
+
+    @Override
+    public void sellItem() {
+        System.out.println("Selling Book: " + getTitle() + " by " + author);
+        setCopies(getCopies() - 1);
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{author='" + author + "', " + super.toString() + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        if (!super.equals(o)) return false;
+        Book book = (Book) o;
+        return Objects.equals(author, book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), author);
+    }
+}
+
+```
+
+
+--- FILE: src/main/java/csd214/bookstore/pojos/CashTill.java ---
+```
+package csd214.old_.pojos;
+
+public class CashTill {
+    private double runningTotal;
+
+    public CashTill() {
+        this.runningTotal = 0.0;
+    }
+
+    public void showTotal() {
+        System.out.println("Current Cash Till Total: $" + runningTotal);
+    }
+
+    public void sellItem(SaleableItem item) {
+        item.sellItem();
+        runningTotal += item.getPrice();
+        System.out.println("Added $" + item.getPrice() + " to till.");
+    }
+
+    public double getRunningTotal() {
+        return runningTotal;
+    }
+}
+
+```
+
+
+--- FILE: src/main/java/csd214/bookstore/pojos/DiscMag.java ---
+```
+package csd214.old_.pojos;
+
+import java.util.Date;
+
+public class DiscMag extends Magazine {
+    private boolean hasDisc;
+
+    public DiscMag() {
+    }
+
+    public DiscMag(boolean hasDisc, int orderQty, Date currentIssue, String title, double price, int copies) {
+        super(orderQty, currentIssue, title, price, copies);
+        this.hasDisc = hasDisc;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize(); // Title, Qty, Date, Copies, Price
+
+        System.out.println("Has Disc? (true/false):");
+        this.hasDisc = getInput(false);
+    }
+
+    @Override
+    public void edit() {
+        super.edit(); // Title, Price, Copies, OrderQty, Date
+
+        System.out.println("Edit Has Disc [" + this.hasDisc + "]:");
+        this.hasDisc = getInput(this.hasDisc);
+    }
+
+    @Override
+    public void sellItem() {
+        System.out.println("Selling Disc Magazine (Disc: " + hasDisc + ")");
+        setCopies(getCopies() - 1);
+    }
+
+    public boolean isHasDisc() { return hasDisc; }
+    public void setHasDisc(boolean h) { this.hasDisc = h; }
+
+    @Override
+    public String toString() {
+        return "DiscMag{hasDisc=" + hasDisc + ", " + super.toString() + "}";
+    }
 }
 
 ```
@@ -516,6 +1079,69 @@ public abstract class Editable implements Serializable, SaleableItem {
 ```
 
 
+--- FILE: src/main/java/csd214/bookstore/pojos/Magazine.java ---
+```
+package csd214.old_.pojos;
+
+import java.util.Date;
+
+public class Magazine extends Publication {
+    private int orderQty = 0;
+    private Date currentIssue = new Date();
+
+    public Magazine() {
+    }
+
+    public Magazine(int orderQty, Date currentIssue, String title, double price, int copies) {
+        super(title, price, copies);
+        this.orderQty = orderQty;
+        this.currentIssue = currentIssue;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize(); // Title
+
+        System.out.println("Enter Order Qty:");
+        this.orderQty = getInput(0);
+
+        System.out.println("Enter Current Issue Date (dd-MMM-yyyy):");
+        this.currentIssue = getInput(new Date());
+
+        super.initPriceCopies(); // Copies, Price
+    }
+
+    @Override
+    public void edit() {
+        super.edit(); // Title, Price, Copies
+
+        System.out.println("Edit Order Qty [" + this.orderQty + "]:");
+        this.orderQty = getInput(this.orderQty);
+
+        System.out.println("Edit Issue Date [" + this.currentIssue + "]:");
+        this.currentIssue = getInput(this.currentIssue);
+    }
+
+    @Override
+    public void sellItem() {
+        System.out.println("Selling Magazine: " + getTitle());
+        setCopies(getCopies() - 1);
+    }
+
+    public int getOrderQty() { return orderQty; }
+    public void setOrderQty(int o) { this.orderQty = o; }
+    public Date getCurrentIssue() { return currentIssue; }
+    public void setCurrentIssue(Date d) { this.currentIssue = d; }
+
+    @Override
+    public String toString() {
+        return "Magazine{orderQty=" + orderQty + ", issue=" + currentIssue + ", " + super.toString() + "}";
+    }
+}
+
+```
+
+
 --- FILE: src/main/java/csd214/bookstore/pojos/Product.java ---
 ```
 package csd214.old_.pojos;
@@ -533,51 +1159,6 @@ public abstract class Product extends Editable implements SaleableItem, Serializ
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-}
-
-```
-
-
---- FILE: src/main/java/csd214/bookstore/pojos/Ticket.java ---
-```
-package csd214.old_.pojos;
-
-public class Ticket extends Product {
-    public String description = "";
-    public double price = 0.0;
-
-    @Override
-    public void sellItem() {
-        System.out.println("Selling Ticket: " + description + " for " + price);
-    }
-
-    @Override
-    public double getPrice() {
-        return price;
-    }
-
-    @Override
-    public void initialize() {
-        System.out.println("Enter Description:");
-        this.description = getInput("Ticket");
-
-        System.out.println("Enter Price:");
-        this.price = getInput(0.0);
-    }
-
-    @Override
-    public void edit() {
-        System.out.println("Edit Description [" + this.description + "]:");
-        this.description = getInput(this.description);
-
-        System.out.println("Edit Price [" + this.price + "]:");
-        this.price = getInput(this.price);
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{desc='" + description + "', price=" + price + "}";
     }
 }
 
@@ -680,225 +1261,57 @@ public abstract class Publication extends Product {
 ```
 
 
---- FILE: src/main/java/csd214/bookstore/pojos/Book.java ---
+--- FILE: src/main/java/csd214/bookstore/pojos/SaleableItem.java ---
 ```
 package csd214.old_.pojos;
 
-import java.util.Objects;
-
-public class Book extends Publication {
-    private String author = "";
-
-    public Book() {
-        super();
-    }
-
-    public Book(String author) {
-        this.author = author;
-    }
-
-    public Book(String author, String title, double price, int copies) {
-        super(title, price, copies);
-        this.author = author;
-    }
-
-    @Override
-    public void initialize() {
-        // 1. Initialize Parent (Title)
-        super.initialize();
-
-        // 2. Initialize Self (Author)
-        System.out.println("Enter Author:");
-        this.author = getInput("Unknown Author");
-
-        // 3. Initialize Parent (Copies/Price)
-        super.initPriceCopies();
-    }
-
-    @Override
-    public void edit() {
-        // 1. Edit Parent fields (Title, Price, Copies)
-        super.edit();
-
-        // 2. Edit Self fields
-        System.out.println("Edit Author [" + this.author + "]:");
-        this.author = getInput(this.author);
-    }
-
-    @Override
-    public void sellItem() {
-        System.out.println("Selling Book: " + getTitle() + " by " + author);
-        setCopies(getCopies() - 1);
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{author='" + author + "', " + super.toString() + "}";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Book)) return false;
-        if (!super.equals(o)) return false;
-        Book book = (Book) o;
-        return Objects.equals(author, book.author);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), author);
-    }
+public interface SaleableItem {
+    void sellItem();
+    double getPrice();
 }
 
 ```
 
 
---- FILE: src/main/java/csd214/bookstore/pojos/Magazine.java ---
+--- FILE: src/main/java/csd214/bookstore/pojos/Ticket.java ---
 ```
 package csd214.old_.pojos;
 
-import java.util.Date;
+public class Ticket extends Product {
+    public String description = "";
+    public double price = 0.0;
 
-public class Magazine extends Publication {
-    private int orderQty = 0;
-    private Date currentIssue = new Date();
-
-    public Magazine() {
+    @Override
+    public void sellItem() {
+        System.out.println("Selling Ticket: " + description + " for " + price);
     }
 
-    public Magazine(int orderQty, Date currentIssue, String title, double price, int copies) {
-        super(title, price, copies);
-        this.orderQty = orderQty;
-        this.currentIssue = currentIssue;
+    @Override
+    public double getPrice() {
+        return price;
     }
 
     @Override
     public void initialize() {
-        super.initialize(); // Title
+        System.out.println("Enter Description:");
+        this.description = getInput("Ticket");
 
-        System.out.println("Enter Order Qty:");
-        this.orderQty = getInput(0);
-
-        System.out.println("Enter Current Issue Date (dd-MMM-yyyy):");
-        this.currentIssue = getInput(new Date());
-
-        super.initPriceCopies(); // Copies, Price
+        System.out.println("Enter Price:");
+        this.price = getInput(0.0);
     }
 
     @Override
     public void edit() {
-        super.edit(); // Title, Price, Copies
+        System.out.println("Edit Description [" + this.description + "]:");
+        this.description = getInput(this.description);
 
-        System.out.println("Edit Order Qty [" + this.orderQty + "]:");
-        this.orderQty = getInput(this.orderQty);
-
-        System.out.println("Edit Issue Date [" + this.currentIssue + "]:");
-        this.currentIssue = getInput(this.currentIssue);
+        System.out.println("Edit Price [" + this.price + "]:");
+        this.price = getInput(this.price);
     }
-
-    @Override
-    public void sellItem() {
-        System.out.println("Selling Magazine: " + getTitle());
-        setCopies(getCopies() - 1);
-    }
-
-    public int getOrderQty() { return orderQty; }
-    public void setOrderQty(int o) { this.orderQty = o; }
-    public Date getCurrentIssue() { return currentIssue; }
-    public void setCurrentIssue(Date d) { this.currentIssue = d; }
 
     @Override
     public String toString() {
-        return "Magazine{orderQty=" + orderQty + ", issue=" + currentIssue + ", " + super.toString() + "}";
-    }
-}
-
-```
-
-
---- FILE: src/main/java/csd214/bookstore/pojos/DiscMag.java ---
-```
-package csd214.old_.pojos;
-
-import java.util.Date;
-
-public class DiscMag extends Magazine {
-    private boolean hasDisc;
-
-    public DiscMag() {
-    }
-
-    public DiscMag(boolean hasDisc, int orderQty, Date currentIssue, String title, double price, int copies) {
-        super(orderQty, currentIssue, title, price, copies);
-        this.hasDisc = hasDisc;
-    }
-
-    @Override
-    public void initialize() {
-        super.initialize(); // Title, Qty, Date, Copies, Price
-
-        System.out.println("Has Disc? (true/false):");
-        this.hasDisc = getInput(false);
-    }
-
-    @Override
-    public void edit() {
-        super.edit(); // Title, Price, Copies, OrderQty, Date
-
-        System.out.println("Edit Has Disc [" + this.hasDisc + "]:");
-        this.hasDisc = getInput(this.hasDisc);
-    }
-
-    @Override
-    public void sellItem() {
-        System.out.println("Selling Disc Magazine (Disc: " + hasDisc + ")");
-        setCopies(getCopies() - 1);
-    }
-
-    public boolean isHasDisc() { return hasDisc; }
-    public void setHasDisc(boolean h) { this.hasDisc = h; }
-
-    @Override
-    public String toString() {
-        return "DiscMag{hasDisc=" + hasDisc + ", " + super.toString() + "}";
-    }
-}
-
-```
-
-
---- FILE: src/main/java/csd214/bookstore/pojos/CashTill.java ---
-```
-package csd214.old_.pojos;
-
-public class CashTill {
-    private double runningTotal;
-
-    public CashTill() {
-        this.runningTotal = 0.0;
-    }
-
-    public void showTotal() {
-        System.out.println("Current Cash Till Total: $" + runningTotal);
-    }
-
-    public void sellItem(SaleableItem item) {
-        item.sellItem();
-        runningTotal += item.getPrice();
-        System.out.println("Added $" + item.getPrice() + " to till.");
-    }
-
-    public double getRunningTotal() {
-        return runningTotal;
+        return "Ticket{desc='" + description + "', price=" + price + "}";
     }
 }
 
@@ -1028,82 +1441,34 @@ class BookTest {
 ```
 
 
---- FILE: src/test/java/csd214/bookstore/pojos/MagazineTest.java ---
+--- FILE: src/test/java/csd214/bookstore/pojos/CashTillTest.java ---
 ```
 package csd214.old_.pojos;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class MagazineTest {
-
-    private final InputStream originalSystemIn = System.in;
-
-    @AfterEach
-    void tearDown() {
-        System.setIn(originalSystemIn);
-    }
+class CashTillTest {
 
     @Test
-    void testConstructorAndGetters() {
-        Date now = new Date();
-        Magazine mag = new Magazine(100, now, "Time", 5.99, 20);
+    void testSellItemAddsToTotal() {
+        CashTill till = new CashTill();
+        assertEquals(0.0, till.getRunningTotal(), 0.001);
 
-        assertEquals("Time", mag.getTitle());
-        assertEquals(5.99, mag.getPrice());
-        assertEquals(20, mag.getCopies());
-        assertEquals(100, mag.getOrderQty());
-        assertEquals(now, mag.getCurrentIssue());
-    }
+        // Create a dummy saleable item
+        SaleableItem item = new SaleableItem() {
+            @Override
+            public void sellItem() { }
 
-    @Test
-    void testSellItem() {
-        Magazine mag = new Magazine(10, new Date(), "Vogue", 10.0, 5);
-        mag.sellItem();
-        assertEquals(4, mag.getCopies());
-    }
+            @Override
+            public double getPrice() { return 10.50; }
+        };
 
-    @Test
-    void testInitializeWithMockInput() {
-        // Order: Title -> Order Qty -> Date (dd-MMM-yyyy) -> Copies -> Price
-        String simulatedInput = "National Geographic\n500\n01-Jan-2025\n10\n12.50\n";
+        till.sellItem(item);
+        assertEquals(10.50, till.getRunningTotal(), 0.001);
 
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        Magazine mag = new Magazine();
-        mag.setSystemInput(testIn);
-
-        mag.initialize();
-
-        assertEquals("National Geographic", mag.getTitle());
-        assertEquals(500, mag.getOrderQty());
-        assertEquals(10, mag.getCopies());
-        assertEquals(12.50, mag.getPrice(), 0.001);
-        // Date verification can be tricky with string parsing, just checking it's not null or basic parsing
-        assertNotNull(mag.getCurrentIssue());
-    }
-
-    @Test
-    void testEditWithMockInput() {
-        // Order: Title -> Price -> Copies -> Order Qty -> Date
-        String simulatedInput = "New Title\n15.00\n100\n999\n01-Feb-2025\n";
-
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        Magazine mag = new Magazine(10, new Date(), "Old", 5.0, 5);
-        mag.setSystemInput(testIn);
-
-        mag.edit();
-
-        assertEquals("New Title", mag.getTitle());
-        assertEquals(15.00, mag.getPrice(), 0.001);
-        assertEquals(100, mag.getCopies());
-        assertEquals(999, mag.getOrderQty());
+        till.sellItem(item);
+        assertEquals(21.00, till.getRunningTotal(), 0.001);
     }
 }
 
@@ -1186,206 +1551,8 @@ class DiscMagTest {
 ```
 
 
---- FILE: src/test/java/csd214/bookstore/pojos/TicketTest.java ---
+--- FILE: src/test/java/csd214/bookstore/pojos/MagazineTest.java ---
 ```
-package csd214.old_.pojos;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class TicketTest {
-
-    private final InputStream originalSystemIn = System.in;
-
-    @AfterEach
-    void tearDown() {
-        System.setIn(originalSystemIn);
-    }
-
-    @Test
-    void testFields() {
-        Ticket t = new Ticket();
-        t.description = "Concert";
-        t.price = 50.0;
-
-        assertEquals("Concert", t.description);
-        assertEquals(50.0, t.getPrice());
-    }
-
-    @Test
-    void testInitialize() {
-        // Order: Description -> Price
-        String simulatedInput = "Movie Night\n12.50\n";
-
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        Ticket t = new Ticket();
-        t.setSystemInput(testIn);
-
-        t.initialize();
-
-        assertEquals("Movie Night", t.description);
-        assertEquals(12.50, t.getPrice(), 0.001);
-    }
-
-    @Test
-    void testEdit() {
-        // Order: Description -> Price
-        String simulatedInput = "Updated Event\n75.00\n";
-
-        Ticket t = new Ticket();
-        t.description = "Old Event";
-        t.price = 20.0;
-
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        t.setSystemInput(testIn);
-
-        t.edit();
-
-        assertEquals("Updated Event", t.description);
-        assertEquals(75.00, t.getPrice(), 0.001);
-    }
-}
-
-```
-
-
---- FILE: src/test/java/csd214/bookstore/pojos/CashTillTest.java ---
-```
-package csd214.old_.pojos;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class CashTillTest {
-
-    @Test
-    void testSellItemAddsToTotal() {
-        CashTill till = new CashTill();
-        assertEquals(0.0, till.getRunningTotal(), 0.001);
-
-        // Create a dummy saleable item
-        SaleableItem item = new SaleableItem() {
-            @Override
-            public void sellItem() { }
-
-            @Override
-            public double getPrice() { return 10.50; }
-        };
-
-        till.sellItem(item);
-        assertEquals(10.50, till.getRunningTotal(), 0.001);
-
-        till.sellItem(item);
-        assertEquals(21.00, till.getRunningTotal(), 0.001);
-    }
-}
-
-```
-
-
---- FILE: .files2ignore ---
-```
-# .files2ignore GenericPromptGeneratorV3
-.git
-
-# Generator Output & Custom Data
-ai_prompt*
-Timeline*.json
-assets/
-
-### Node / NPM / Express / React ###
-node_modules/
-package-lock.json
-dist/
-build/
-out/
-coverage/
-.nyc_output/
-
-# Environment Variables (Security: Never upload secrets)
-.env
-.env.local
-.env.*
-!.env.example
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Framework specific
-.next/
-.nuxt/
-dist-ssr
-*.local
-
-### Spring Boot / Java ###
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### IDEs / Editors ###
-
-# IntelliJ IDEA
-.idea
-*.iws
-*.iml
-*.ipr
-
-# VS Code
-.vscode/
-!.vscode/extensions.json
-
-# STS / Eclipse
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-# OS / Misc
-.DS_Store
-Thumbs.db
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-```
-
-
---- FILE: script.sh ---
-```
-#!/bin/bash
-
-TEST_DIR="src/test/java/csd214/bookstore/pojos"
-mkdir -p "$TEST_DIR"
-
-# ---------------------------------------------------------
-# 1. MagazineTest
-# ---------------------------------------------------------
-cat <<EOF > "$TEST_DIR/MagazineTest.java"
 package csd214.old_.pojos;
 
 import org.junit.jupiter.api.AfterEach;
@@ -1462,88 +1629,12 @@ class MagazineTest {
         assertEquals(999, mag.getOrderQty());
     }
 }
-EOF
 
-# ---------------------------------------------------------
-# 2. DiscMagTest
-# ---------------------------------------------------------
-cat <<EOF > "$TEST_DIR/DiscMagTest.java"
-package csd214.old_.pojos;
+```
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class DiscMagTest {
-
-    private final InputStream originalSystemIn = System.in;
-
-    @AfterEach
-    void tearDown() {
-        System.setIn(originalSystemIn);
-    }
-
-    @Test
-    void testConstructor() {
-        Date now = new Date();
-        DiscMag dm = new DiscMag(true, 50, now, "PC Gamer", 9.99, 15);
-
-        assertTrue(dm.isHasDisc());
-        assertEquals("PC Gamer", dm.getTitle());
-    }
-
-    @Test
-    void testSellItem() {
-        DiscMag dm = new DiscMag(true, 50, new Date(), "PC Gamer", 9.99, 15);
-        dm.sellItem();
-        assertEquals(14, dm.getCopies());
-    }
-
-    @Test
-    void testInitialize() {
-        // Order (Magazine): Title -> Order Qty -> Date -> Copies -> Price
-        // Order (DiscMag):  Has Disc?
-        String simulatedInput = "TechWorld\n200\n15-Mar-2025\n25\n19.99\ntrue\n";
-
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        DiscMag dm = new DiscMag();
-        dm.setSystemInput(testIn);
-
-        dm.initialize();
-
-        assertEquals("TechWorld", dm.getTitle());
-        assertEquals(19.99, dm.getPrice(), 0.001);
-        assertTrue(dm.isHasDisc());
-    }
-
-    @Test
-    void testEdit() {
-        // Order (Magazine): Title -> Price -> Copies -> Order Qty -> Date
-        // Order (DiscMag):  Has Disc?
-        String simulatedInput = "New Tech\n25.00\n50\n300\n20-Mar-2025\nfalse\n";
-
-        DiscMag dm = new DiscMag(true, 100, new Date(), "Old", 10.0, 10);
-        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
-        dm.setSystemInput(testIn);
-
-        dm.edit();
-
-        assertEquals("New Tech", dm.getTitle());
-        assertEquals(25.00, dm.getPrice(), 0.001);
-        assertFalse(dm.isHasDisc());
-    }
-}
-EOF
-
-# ---------------------------------------------------------
-# 3. TicketTest
-# ---------------------------------------------------------
-cat <<EOF > "$TEST_DIR/TicketTest.java"
+--- FILE: src/test/java/csd214/bookstore/pojos/TicketTest.java ---
+```
 package csd214.old_.pojos;
 
 import org.junit.jupiter.api.AfterEach;
@@ -1606,145 +1697,7 @@ class TicketTest {
         assertEquals(75.00, t.getPrice(), 0.001);
     }
 }
-EOF
 
-# ---------------------------------------------------------
-# 4. CashTillTest
-# ---------------------------------------------------------
-cat <<EOF > "$TEST_DIR/CashTillTest.java"
-package csd214.old_.pojos;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class CashTillTest {
-
-    @Test
-    void testSellItemAddsToTotal() {
-        CashTill till = new CashTill();
-        assertEquals(0.0, till.getRunningTotal(), 0.001);
-
-        // Create a dummy saleable item
-        SaleableItem item = new SaleableItem() {
-            @Override
-            public void sellItem() { }
-
-            @Override
-            public double getPrice() { return 10.50; }
-        };
-
-        till.sellItem(item);
-        assertEquals(10.50, till.getRunningTotal(), 0.001);
-
-        till.sellItem(item);
-        assertEquals(21.00, till.getRunningTotal(), 0.001);
-    }
-}
-EOF
-
-echo "All tests generated in $TEST_DIR"
-```
-
-
---- FILE: documentation/bookstore.f25-2025-11-17-211001.mmd ---
-```
-classDiagram
-    Editable <|--Product
-    Product <|--Ticket
-    Product <|--Publication
-    Publication <|-- Book
-    Publication <|-- Magazine
-    Magazine <|-- DiscMag
-    SaleableItem <|.. Product
-    Serializable <|.. Product
-    Product <-- CashTill
-
-    class Product{
-        -String productId
-    }
-
-    class Serializable{
-        <<interface>>
-    }
-    class Ticket{
-        +description
-        +price
-        +sellItem()
-    }
-    class Editable{
-        <<abstract>>
-        -Scanner input
-        +String getInput(String)
-        +int getInput(int)
-        +double getInput(double)
-        +boolean getInput(boolean)
-        +Date getInput(Date)
-        +Enum getInput(Enum)
-        +edit()*
-        +initialize()*
-
-    }
-    class Publication{
-        <<Abstract>>
-        -String title
-        -double price
-        -int copies
-        +getPrice()
-
-        +Publication()
-        +Publication(String title, double price, int copies)
-        +toString()
-        +equals()
-        +hashCode()
-
-    }
-    class Book{
-        -String author
-        +edit()
-        +initialize()
-        +sellItem()
-
-        +Book()
-        +Book(String author)
-        +Book(String author, String title, double price, int copies)
-        +toString()
-        +equals()
-        +hashCode()
-
-    }
-    class Magazine{
-        -int orderQty
-        -java.util.Date currentIssue
-
-        +Magazine()
-        +Magazine(int orderQty, Date currentIssue, String title, double price, int copies)
-
-        +edit()
-        +initialize()
-        +sellItem()
-    }
-    class DiscMag{
-        -boolean hasDisc
-        +edit()
-        +initialize()
-        +sellItem()
-
-        +DiscMag()
-        +DiscMag(boolean, hasDisc, int orderQty, Date currentIssue, String title, double price, int copies)
-
-    }
-    class CashTill{
-        -double runningTotal
-        +CashTill()
-        +showTotal()
-        +sellItem(SaleableItem item)
-    }
-    class SaleableItem {
-        <<interface>>
-        +sellItem()
-        +getPrice()
-
-    }
 ```
 
 

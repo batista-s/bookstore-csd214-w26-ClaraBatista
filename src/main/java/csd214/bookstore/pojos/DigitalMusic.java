@@ -12,7 +12,6 @@ public class DigitalMusic extends MusicCollection{
 
     public DigitalMusic(String title, String artist, String genre, int year, double price, String link) {
         super(title, artist, genre, year, price);
-        setProductId(UUID.randomUUID().toString());
         this.link = link;
     }
 

@@ -6,6 +6,9 @@ import java.util.UUID;
 
 // Marked abstract because it implements SaleableItem but doesn't implement getPrice()
 // (Price is defined in children: Ticket and Publication)
+/**
+ * DTO for {@link csd214.bookstore.entities.ProductEntity}
+ */
 public abstract class Product extends Editable implements SaleableItem, Serializable {
     private String productId;
     private double price;

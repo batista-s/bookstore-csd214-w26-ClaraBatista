@@ -1,0 +1,15 @@
+<persistence-unit name="bookstore-pu">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <properties>
+        <!-- Lab 0/3 Docker Settings -->
+        <property name="jakarta.persistence.jdbc.url"    value="jdbc:mysql://localhost:3333/bookstore" />
+        <property name="jakarta.persistence.jdbc.user"   value="csd214" />
+        <property name="jakarta.persistence.jdbc.password" value="itstudies12345" />
+        <!-- Hibernate Magic -->
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+        <property name="hibernate.show_sql" value="true" />
+
+        <!-- Crucial: This updates the schema based on your Annotations -->
+        <property name="hibernate.hbm2ddl.auto" value="update" />
+    </properties>
+</persistence-unit>

@@ -63,6 +63,7 @@ public abstract class MusicCollection extends Product {
         setGenre(getInput(input, this.genre));
         System.out.println("Edit Year [" + this.year + "]:");
         setYear(getInput(input, this.year));
+        super.edit(input)
     }
 
     @Override
@@ -75,6 +76,7 @@ public abstract class MusicCollection extends Product {
         setGenre(getInput(input, "Generic"));
         System.out.println("Enter Year:");
         setYear(getInput(input, 0));
+        super.initialize(input)
     }
 
     @Override
